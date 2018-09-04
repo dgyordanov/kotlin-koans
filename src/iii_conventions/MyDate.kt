@@ -25,4 +25,20 @@ class DateRange(val start: MyDate, val endInclusive: MyDate) {
         return start <= d && d <= endInclusive
     }
 
+    operator fun iterator() = DateRangeIterator(this)
+
+}
+
+class DateRangeIterator(val dateRange: DateRange) : Iterator<MyDate> {
+
+    private var current = dateRange.start
+
+    override fun next(): MyDate {
+        val next = current
+        current = current.nextDay()
+        return next
+    }
+
+    override fun hasNext() : Boolean = current <= dateRange.endInclusive
+
 }
